@@ -100,9 +100,18 @@ class BaseEventReader(PropertiedObject, BaseReader):
             return self.read_matlab()
 
     def as_dataframe(self):
-        """Read events and return as a :class:`pd.DataFrame`."""
+        """Read events and return as a :class:`pd.DataFrame`.
+
+        .. warning::
+
+            This drops the ``stim_params`` field presently as it is not scalar
+            in the current event structure scheme and causes issues when trying
+            to convert to a :class:`pd.DataFrame`.
+
+        """
         events = self.read()
-        return pd.DataFrame(events)
+        exclude = ['stim_params'] if 'stim_params' in events.dtype.fields else None
+        return pd.DataFrame.from_records(events, exclude=exclude)
 
     def check_reader_settings_for_json_read(self):
 
@@ -221,8 +230,10 @@ class BaseEventReader(PropertiedObject, BaseReader):
             return cls.mkdtype(element)
         elif isinstance(element, int):
             return 'int64'
-        elif isinstance(element, six.string_types):
+        elif isinstance(element, six.binary_type):
             return 'S256'
+        elif isinstance(element, six.text_type):
+            return 'U256'
         elif isinstance(element, bool):
             return 'b'
         elif isinstance(element, float):

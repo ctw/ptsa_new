@@ -4,7 +4,7 @@ PTSA
 .. image:: https://travis-ci.org/pennmem/ptsa_new.svg?branch=master
     :target: https://travis-ci.org/pennmem/ptsa_new
 
-For documentation and tutorials, please see https://pennmem.github.io/ptsa/
+For documentation and tutorials, please see https://pennmem.github.io/ptsa_new/
 
 Warning
 -------
@@ -68,7 +68,20 @@ Install PTSA:
 Building conda packages
 -----------------------
 
-In the root conda environment, install ``conda-build``:
+Before we begin building conda PTSA packages we need to set the PYTHON_BUILD_NUMBER system variable. For example,
+if we are building PTSA conda package for Python 2.7 we set PYTHON_BUILD_NUMBER to be 2.7. On linux you do it via
+
+.. code-block:: shell-session
+
+    export PYTHON_BUILD_VERSION=2.7
+
+on Windows:
+
+.. code-block:: shell-session
+
+    set PYTHON_BUILD_VERSION=2.7
+
+Next, in the root conda environment, install ``conda-build``:
 
 .. code-block:: shell-session
 
